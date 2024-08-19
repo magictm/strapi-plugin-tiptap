@@ -13,19 +13,46 @@ jobs:
             contents: write
         steps:
             - name: 📚 checkout
-              uses: actions/checkout@v3
+              uses: actions/checkout@v4
               with:
                   fetch-depth: 0
-            - name: create release
+
+            - name: Create release
               uses: ncipollo/release-action@v1
               with:
                   generateReleaseNotes: true
-            - name: 🟢 node
-              uses: actions/setup-node@v3
+
+    publish:
+        name: 🚀 release
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                node-version: [20]
+        permissions:
+            contents: write
+        steps:
+            - name: 📚 checkout
+              uses: actions/checkout@v4
+
+            - name: Install pnpm
+              uses: pnpm/action-setup@v4
               with:
-                  node-version: 18
+                  version: 9
+
+            - name: 🟢 Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v4
+              with:
+                  node-version: ${{ matrix.node-version }}
                   registry-url: https://registry.npmjs.org
-            - name: 🚀 publish to NPM
+                  cache: 'pnpm'
+
+            - name: Install dependencies
+              run: pnpm install
+
+            - name: Build
+              run: pnpm run build
+
+            - name: 🚀 Publish to NPM
               run: npm publish --access public
               env:
                   NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}

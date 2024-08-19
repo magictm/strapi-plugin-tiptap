@@ -1,65 +1,100 @@
 {
-    "name": "@magictm/strapi-plugin-tiptap-editor",
     "version": "0.1.7",
-    "description": "Replaces default Strapi editor with Tiptap editor.",
+    "type": "commonjs",
+    "exports": {
+        "./strapi-server": {
+            "types": "./dist/server/src/index.d.ts",
+            "source": "./server/src/index.ts",
+            "import": "./dist/server/index.mjs",
+            "require": "./dist/server/index.js",
+            "default": "./dist/server/index.js"
+        },
+        "./package.json": "./package.json"
+    },
+    "files": [
+        "dist",
+        "strapi-server.js"
+    ],
     "scripts": {
+        "build": "strapi plugin:build --force",
+        "watch": "strapi plugin:watch",
+        "watch:link": "strapi plugin:watch:link",
+        "verify": "strapi plugin:verify",
+        "test:ts:back": "run -T tsc -p server/tsconfig.json",
         "npm:publish": "npm publish --access public"
     },
-    "strapi": {
-        "name": "tiptap-editor",
-        "description": "Replaces default Strapi editor with Tiptap editor.",
-        "kind": "plugin",
-        "displayName": "MagicTM · Tiptap Editor"
-    },
     "dependencies": {
-        "@tiptap/extension-blockquote": "^2.0.0-beta.218",
-        "@tiptap/extension-bold": "^2.0.0-beta.218",
-        "@tiptap/extension-bullet-list": "^2.0.0-beta.218",
-        "@tiptap/extension-character-count": "^2.0.0-beta.218",
-        "@tiptap/extension-code": "^2.0.0-beta.218",
-        "@tiptap/extension-code-block": "^2.0.0-beta.218",
-        "@tiptap/extension-document": "^2.0.0-beta.218",
-        "@tiptap/extension-gapcursor": "^2.0.0-beta.218",
-        "@tiptap/extension-hard-break": "^2.0.0-beta.218",
-        "@tiptap/extension-heading": "^2.0.0-beta.218",
-        "@tiptap/extension-highlight": "^2.0.0-beta.218",
-        "@tiptap/extension-history": "^2.0.0-beta.218",
-        "@tiptap/extension-horizontal-rule": "^2.0.0-beta.218",
-        "@tiptap/extension-image": "^2.0.0-beta.218",
-        "@tiptap/extension-italic": "^2.0.0-beta.218",
-        "@tiptap/extension-link": "^2.0.0-beta.218",
-        "@tiptap/extension-list-item": "^2.0.0-beta.218",
-        "@tiptap/extension-ordered-list": "^2.0.0-beta.218",
-        "@tiptap/extension-paragraph": "^2.0.0-beta.218",
-        "@tiptap/extension-placeholder": "^2.0.0-beta.218",
-        "@tiptap/extension-strike": "^2.0.0-beta.218",
-        "@tiptap/extension-table": "^2.0.0-beta.218",
-        "@tiptap/extension-table-cell": "^2.0.0-beta.218",
-        "@tiptap/extension-table-header": "^2.0.0-beta.218",
-        "@tiptap/extension-table-row": "^2.0.0-beta.218",
-        "@tiptap/extension-text": "^2.0.0-beta.218",
-        "@tiptap/extension-text-align": "^2.0.0-beta.218",
-        "@tiptap/extension-text-style": "^2.0.0-beta.218",
-        "@tiptap/extension-underline": "^2.0.0-beta.218",
-        "@tiptap/extension-youtube": "^2.0.0-beta.218",
-        "@tiptap/pm": "^2.0.0-beta.218",
-        "@tiptap/react": "^2.0.0-beta.218",
-        "joi": "^17.8.3",
-        "react-icons": "^4.7.1"
+        "@strapi/design-system": "^1.19.0",
+        "@strapi/helper-plugin": "^4.25.4",
+        "@strapi/icons": "^1.19.0"
     },
-    "author": {
-        "name": "Marcin Stawowczyk (m7rlin)"
+    "devDependencies": {
+        "@strapi/strapi": "^4.25.4",
+        "@strapi/typescript-utils": "^4.25.4",
+        "@types/react": "^18.3.3",
+        "@types/react-dom": "^18.3.0",
+        "@types/react-router-dom": "^5.3.3",
+        "@types/styled-components": "^5.1.32",
+        "prettier": "^3.3.3",
+        "react": "^18.3.1",
+        "react-dom": "^18.3.1",
+        "react-intl": "^6.6.8",
+        "react-router-dom": "^5.3.4",
+        "styled-components": "^5.3.3",
+        "typescript": "^5.5.3",
+        "@tiptap/core": "^2.6.4",
+        "@tiptap/extension-blockquote": "^2.6.4",
+        "@tiptap/extension-bold": "^2.6.4",
+        "@tiptap/extension-bullet-list": "^2.6.4",
+        "@tiptap/extension-code": "^2.6.4",
+        "@tiptap/extension-code-block": "^2.6.4",
+        "@tiptap/extension-document": "^2.6.4",
+        "@tiptap/extension-dropcursor": "^2.6.4",
+        "@tiptap/extension-gapcursor": "^2.6.4",
+        "@tiptap/extension-hard-break": "^2.6.4",
+        "@tiptap/extension-heading": "^2.6.4",
+        "@tiptap/extension-history": "^2.6.4",
+        "@tiptap/extension-horizontal-rule": "^2.6.4",
+        "@tiptap/extension-italic": "^2.6.4",
+        "@tiptap/extension-list-item": "^2.6.4",
+        "@tiptap/extension-ordered-list": "^2.6.4",
+        "@tiptap/extension-paragraph": "^2.6.4",
+        "@tiptap/extension-strike": "^2.6.4",
+        "@tiptap/extension-table": "^2.6.4",
+        "@tiptap/extension-table-cell": "^2.6.4",
+        "@tiptap/extension-table-header": "^2.6.4",
+        "@tiptap/extension-table-row": "^2.6.4",
+        "@tiptap/extension-text": "^2.6.4",
+        "@tiptap/html": "^2.6.4",
+        "@tiptap/pm": "^2.6.4",
+        "@tiptap/react": "^2.6.4"
     },
+    "peerDependencies": {
+        "@strapi/strapi": "^4.25.4",
+        "react": "^18.3.1",
+        "react-dom": "^18.3.1",
+        "react-router-dom": "^5.2.0",
+        "styled-components": "^5.2.1"
+    },
+    "strapi": {
+        "kind": "plugin",
+        "name": "magictm-deep-populate",
+        "displayName": "Tiptap Editor by MagicTM (m7rlin)",
+        "description": "Replaces default Strapi editor with Tiptap editor."
+    },
+    "name": "@magictm/strapi-plugin-tiptap-editor",
+    "description": "Replaces default Strapi editor with Tiptap editor.",
+    "license": "MIT",
+    "author": "Marcin Stawowczyk m7rlin <merlin@magictm.com>",
     "maintainers": [
         {
-            "name": "Marcin Stawowczyk (m7rlin)"
+            "name": "Marcin Stawowczyk m7rlin <merlin@magictm.com>"
         }
     ],
     "engines": {
-        "node": ">=14.19.1 <=18.x.x",
-        "npm": ">=6.0.0"
+        "node": ">=18.x.x <=20.x.x",
+        "npm": ">=10.0.0"
     },
-    "license": "LGPL-2.1",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/magictm/strapi-plugin-tiptap-editor.git"
@@ -72,9 +107,11 @@
         "strapi",
         "strapi v4",
         "strapi plugin",
-        "strapi tiprap editor",
-        "tiptap",
-        "tiptap editor",
-        "magictm"
+        "strapi deep populate",
+        "magictm",
+        "m7rlin",
+        "strapi nested data",
+        "simplify api responses",
+        "strapi community"
     ]
 }

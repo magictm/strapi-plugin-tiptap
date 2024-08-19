@@ -27,7 +27,9 @@
 
 ## ⛓ Versions
 
-Strapi v4 - (current) - v0.x
+Strapi v4 - (current) - v1.x
+
+Tested on Strapi v4.25.4.
 
 ## 💻 Install
 
@@ -124,7 +126,7 @@ Your company here
 
 ## 📜 License
 
-LGPL-2.1 License © 2023-PRESENT Marcin Stawowczyk (m7rlin)
+MIT License © 2024-PRESENT Marcin Stawowczyk (m7rlin)
 
 <hr>
 
