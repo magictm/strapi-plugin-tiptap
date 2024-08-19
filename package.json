@@ -2,6 +2,13 @@
     "version": "0.1.7",
     "type": "commonjs",
     "exports": {
+        "./strapi-admin": {
+            "types": "./dist/admin/src/index.d.ts",
+            "source": "./admin/src/index.ts",
+            "import": "./dist/admin/index.mjs",
+            "require": "./dist/admin/index.js",
+            "default": "./dist/admin/index.js"
+        },
         "./strapi-server": {
             "types": "./dist/server/src/index.d.ts",
             "source": "./server/src/index.ts",
@@ -26,22 +33,7 @@
     "dependencies": {
         "@strapi/design-system": "^1.19.0",
         "@strapi/helper-plugin": "^4.25.4",
-        "@strapi/icons": "^1.19.0"
-    },
-    "devDependencies": {
-        "@strapi/strapi": "^4.25.4",
-        "@strapi/typescript-utils": "^4.25.4",
-        "@types/react": "^18.3.3",
-        "@types/react-dom": "^18.3.0",
-        "@types/react-router-dom": "^5.3.3",
-        "@types/styled-components": "^5.1.32",
-        "prettier": "^3.3.3",
-        "react": "^18.3.1",
-        "react-dom": "^18.3.1",
-        "react-intl": "^6.6.8",
-        "react-router-dom": "^5.3.4",
-        "styled-components": "^5.3.3",
-        "typescript": "^5.5.3",
+        "@strapi/icons": "^1.19.0",
         "@tiptap/core": "^2.6.4",
         "@tiptap/extension-blockquote": "^2.6.4",
         "@tiptap/extension-bold": "^2.6.4",
@@ -67,7 +59,24 @@
         "@tiptap/extension-text": "^2.6.4",
         "@tiptap/html": "^2.6.4",
         "@tiptap/pm": "^2.6.4",
-        "@tiptap/react": "^2.6.4"
+        "@tiptap/react": "^2.6.4",
+        "joi": "^17.13.3"
+    },
+    "devDependencies": {
+        "@strapi/strapi": "^4.25.4",
+        "@strapi/typescript-utils": "^4.25.4",
+        "@types/joi": "^17.2.3",
+        "@types/react": "^18.3.3",
+        "@types/react-dom": "^18.3.0",
+        "@types/react-router-dom": "^5.3.3",
+        "@types/styled-components": "^5.1.32",
+        "prettier": "^3.3.3",
+        "react": "^18.3.1",
+        "react-dom": "^18.3.1",
+        "react-intl": "^6.6.8",
+        "react-router-dom": "^5.3.4",
+        "styled-components": "^5.3.3",
+        "typescript": "^5.5.3"
     },
     "peerDependencies": {
         "@strapi/strapi": "^4.25.4",
@@ -78,7 +87,7 @@
     },
     "strapi": {
         "kind": "plugin",
-        "name": "magictm-deep-populate",
+        "name": "magictm-tiptap-editor",
         "displayName": "Tiptap Editor by MagicTM (m7rlin)",
         "description": "Replaces default Strapi editor with Tiptap editor."
     },

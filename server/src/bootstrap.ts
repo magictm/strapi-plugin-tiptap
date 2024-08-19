@@ -1,14 +1,6 @@
 import type { Strapi } from '@strapi/strapi'
-import { pluginConfigId, pluginId } from './pluginId'
-
-export interface PluginConfig {
-    minDepth: number
-    maxDepth: number
-    skipCreatorFields: boolean
-    debug: boolean
-    allowedModels: string[]
-    ignore: string[]
-}
+import { pluginConfigId, pluginId } from '../../admin/src/pluginId'
+import { PluginConfig } from './config'
 
 const bootstrap = ({ strapi }: { strapi: Strapi }) => {
     // Get the plugin config

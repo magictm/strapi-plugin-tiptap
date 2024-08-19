@@ -1,5 +1,5 @@
-import * as yup from 'yup'
+import Joi from 'joi'
 
-export const pluginConfigSchema = yup.object().shape({
-    debug: yup.boolean().default(false),
+export const pluginConfigSchema = Joi.object({
+    debug: Joi.boolean().default(false),
 })
