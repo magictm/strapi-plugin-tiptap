@@ -5,6 +5,7 @@ import { pluginId } from './pluginId'
 import Initializer from './components/Initializer'
 import { PluginIcon } from './components/PluginIcon'
 import { getTranslation } from './utils/getTranslation'
+import MyWysiwyg from './components/Wysiwyg' // this file contains the logic for your new WYSIWYG
 
 const name = pluginPkg.strapi.name
 
@@ -43,15 +44,18 @@ export default {
                         defaultMessage: 'Settings',
                     },
                     id: 'settings',
-                    to: '/settings/tiptap-editor/settings',
+                    to: '/settings/' + pluginId,
                     Component: settingsPageComponent,
                     permissions: [],
                 },
             ]
         )
 
+        app.addFields({ type: 'wysiwyg', Component: MyWysiwyg })
+
         app.registerPlugin({
             id: pluginId,
+            initializer: Initializer,
             name,
         })
     },

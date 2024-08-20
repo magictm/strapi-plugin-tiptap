@@ -4,42 +4,36 @@
  *
  */
 
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 // import PropTypes from 'prop-types';
 
 import { Box, Button, ContentLayout, HeaderLayout, Main, Typography } from '@strapi/design-system'
 import { LoadingIndicatorPage } from '@strapi/helper-plugin'
-import configAPI from '../../api/config'
+import { useConfig } from '../../hooks/useConfig'
+import { pluginId } from '../../pluginId'
 
 const Settings = () => {
     const [defaultSettings, setDefaultSettings] = useState<any>(null)
-    const [loading, setLoading] = useState(true)
 
-    // const query = useQuery('settings', {})
+    const {
+        config: { isLoading, isError, data: config },
+    } = useConfig()
 
     useEffect(() => {
-        ;(async () => {
-            const fetchDefaultSettings = async () => {
-                const tmpSettings = await configAPI.get()
-                setDefaultSettings(tmpSettings)
-
-                // Custom settings
-            }
-            setLoading(true)
-            await fetchDefaultSettings()
-            setLoading(false)
-        })()
-    }, [])
+        if (config) {
+            setDefaultSettings(config)
+        }
+    }, [config])
 
     return (
-        <Main aria-busy={loading}>
+        <Main aria-busy={isLoading}>
             <HeaderLayout
                 title={'TipTap Editor Settings'}
                 subtitle={"Customize your editing experience with TipTap Editor's Settings"}
                 primaryAction={<Button disabled>Save</Button>}
             />
 
-            {!loading && (
+            {!isLoading && (
                 <ContentLayout>
                     <Box
                         paddingTop={6}
@@ -61,7 +55,7 @@ const Settings = () => {
             )}
 
             {/* Loading */}
-            {loading && <LoadingIndicatorPage />}
+            {isLoading && <LoadingIndicatorPage />}
         </Main>
     )
 }

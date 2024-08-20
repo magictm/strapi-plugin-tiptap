@@ -7,14 +7,19 @@
 
 import { Switch, Route } from 'react-router-dom'
 import { pluginId } from '../../pluginId'
-import HomePage from '../Homepage'
+import SettingsPage from '../Settings'
+import { QueryClient, QueryClientProvider } from 'react-query'
+
+const queryClient = new QueryClient()
 
 const App = () => {
     return (
         <div>
-            <Switch>
-                <Route path={`/plugins/${pluginId}`} component={HomePage} exact />
-            </Switch>
+            <QueryClientProvider client={queryClient}>
+                <Switch>
+                    <Route path={`/settings/${pluginId}`} component={SettingsPage} exact />
+                </Switch>
+            </QueryClientProvider>
         </div>
     )
 }
