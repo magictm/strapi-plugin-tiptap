@@ -1,11 +1,8 @@
 {
     "extends": "@strapi/typescript-utils/tsconfigs/server",
-    "include": ["./", "../admin/src/pluginId.ts"],
+    "include": ["./src"],
     "compilerOptions": {
         "rootDir": "../",
-        "baseUrl": ".",
-        "target": "es6",
-        "module": "commonjs",
-        "lib": ["es6", "es2015", "dom"]
+        "baseUrl": "."
     }
 }

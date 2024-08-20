@@ -1,6 +1,5 @@
 import Joi from 'joi'
 import { pluginConfigSchema } from './schema'
-export { PluginConfig } from './schema'
 
 export default {
     default: {
@@ -159,7 +158,7 @@ export default {
                 showOnlyCurrent: true,
                 includeChildren: false,
             },
-            wordCount: {
+            characterCount: {
                 enabled: true,
             },
         },

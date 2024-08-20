@@ -8,8 +8,48 @@ import { getTranslation } from './utils/getTranslation'
 
 const name = pluginPkg.strapi.name
 
+const settingsPageComponent = async () => {
+    const component = await import(
+        /* webpackChunkName: "strapi-tiptip-editor-settings-page" */ './pages/App'
+    )
+
+    return component
+}
+
 export default {
     register(app: any) {
+        app.createSettingSection(
+            {
+                id: pluginId,
+                intlLabel: {
+                    id: getTranslation('settings.menu.label'),
+                    defaultMessage: 'TipTap Editor by MagicTM',
+                },
+            },
+            [
+                // {
+                //     intlLabel: {
+                //         id: getTranslation('settings.menu.overview'),
+                //         defaultMessage: 'Overview',
+                //     },
+                //     id: 'settings',
+                //     to: '/settings/tiptap-editor/overview',
+                //     Component: overviewPageComponent,
+                //     permissions: [],
+                // },
+                {
+                    intlLabel: {
+                        id: getTranslation('settings.menu.settings'),
+                        defaultMessage: 'Settings',
+                    },
+                    id: 'settings',
+                    to: '/settings/tiptap-editor/settings',
+                    Component: settingsPageComponent,
+                    permissions: [],
+                },
+            ]
+        )
+
         app.registerPlugin({
             id: pluginId,
             name,
