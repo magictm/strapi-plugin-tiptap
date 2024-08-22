@@ -12,6 +12,7 @@ import {
     Stack,
     TextInput,
 } from '@strapi/design-system'
+import { Pencil } from '@strapi/icons'
 import {
     Bold as BoldIcon,
     BulletList as BulletListIcon,
@@ -58,6 +59,16 @@ const onHeadingChange = (editor, type) => {
 const MenuBar = ({ editor }) => {
     if (!editor) {
         return null
+    }
+
+    const settings = {
+        highlight: true,
+        align: ['left'],
+        lists: ['ul', 'ol'],
+        code: true,
+        codeblock: true,
+        blockquote: true,
+        table: true,
     }
 
     const [isVisibleLinkDialog, setIsVisibleLinkDialog] = useState(false)
@@ -165,138 +176,183 @@ const MenuBar = ({ editor }) => {
                             onClick={() => editor.chain().focus().toggleUnderline().run()}
                             disabled={!editor.can().chain().focus().toggleUnderline().run()}
                         />
+                        {settings.highlight ? (
+                            <IconButton
+                                icon={<Pencil />}
+                                label="Highlight"
+                                onClick={() => editor.chain().focus().toggleHighlight().run()}
+                                className={editor.isActive('highlight') ? 'is-active' : ''}
+                            />
+                        ) : null}
                     </IconButtonGroup>
 
                     <IconButtonGroup className="button-group">
-                        <IconButton
-                            icon={<AiOutlineAlignLeft />}
-                            label="Align left"
-                            className={'large-icon'}
-                            onClick={() => editor.chain().focus().setTextAlign('left').run()}
-                            disabled={!editor.can().chain().focus().setTextAlign('left').run()}
-                        />
-                        <IconButton
-                            icon={<AiOutlineAlignCenter />}
-                            label="Align center"
-                            className={'large-icon'}
-                            onClick={() => editor.chain().focus().setTextAlign('center').run()}
-                            disabled={!editor.can().chain().focus().setTextAlign('center').run()}
-                        />
-                        <IconButton
-                            icon={<AiOutlineAlignRight />}
-                            label="Align right"
-                            className={'large-icon'}
-                            onClick={() => editor.chain().focus().setTextAlign('right').run()}
-                            disabled={!editor.can().chain().focus().setTextAlign('right').run()}
-                        />
+                        {settings.align.includes('left') ? (
+                            <IconButton
+                                icon={<AiOutlineAlignLeft />}
+                                label="Align left"
+                                className={'large-icon'}
+                                onClick={() => editor.chain().focus().setTextAlign('left').run()}
+                                disabled={!editor.can().chain().focus().setTextAlign('left').run()}
+                            />
+                        ) : null}
+                        {settings.align.includes('center') ? (
+                            <IconButton
+                                icon={<AiOutlineAlignCenter />}
+                                label="Align center"
+                                className={'large-icon'}
+                                onClick={() => editor.chain().focus().setTextAlign('center').run()}
+                                disabled={
+                                    !editor.can().chain().focus().setTextAlign('center').run()
+                                }
+                            />
+                        ) : null}
+                        {settings.align.includes('right') ? (
+                            <IconButton
+                                icon={<AiOutlineAlignRight />}
+                                label="Align right"
+                                className={'medium-icon'}
+                                onClick={() => editor.chain().focus().setTextAlign('right').run()}
+                                disabled={!editor.can().chain().focus().setTextAlign('right').run()}
+                            />
+                        ) : null}
                     </IconButtonGroup>
 
                     <IconButtonGroup className="button-group">
-                        <IconButton
-                            icon={<BulletListIcon />}
-                            label="Bullet list"
-                            className={[
-                                'large-icon',
-                                editor.isActive('bulletList') ? 'is-active' : '',
-                            ]}
-                            onClick={() => editor.chain().focus().toggleBulletList().run()}
-                        />
-                        <IconButton
-                            icon={<NumberListIcon />}
-                            label="Ordered list"
-                            className={[
-                                'large-icon',
-                                editor.isActive('orderedList') ? 'is-active' : '',
-                            ]}
-                            onClick={() => editor.chain().focus().toggleOrderedList().run()}
-                        />
+                        {settings.lists.includes('ul') ? (
+                            <IconButton
+                                icon={<BulletListIcon />}
+                                label="Bullet list"
+                                className={[
+                                    'large-icon',
+                                    editor.isActive('bulletList') ? 'is-active' : '',
+                                ]}
+                                onClick={() => editor.chain().focus().toggleBulletList().run()}
+                            />
+                        ) : null}
+                        {settings.lists.includes('ol') ? (
+                            <IconButton
+                                icon={<NumberListIcon />}
+                                label="Ordered list"
+                                className={[
+                                    'large-icon',
+                                    editor.isActive('orderedList') ? 'is-active' : '',
+                                ]}
+                                onClick={() => editor.chain().focus().toggleOrderedList().run()}
+                            />
+                        ) : null}
                     </IconButtonGroup>
 
                     <IconButtonGroup className="button-group">
-                        <IconButton
-                            icon={<CodeIcon />}
-                            label="Code"
-                            className={['large-icon', editor.isActive('code') ? 'is-active' : '']}
-                            onClick={() => editor.chain().focus().toggleCode().run()}
-                            disabled={!editor.can().chain().focus().toggleCode().run()}
-                        />
-                        <IconButton
-                            icon={<BiCodeBlockIcon />}
-                            label="Code Block"
-                            className={[
-                                'large-icon',
-                                editor.isActive('codeBlock') ? 'is-active' : '',
-                            ]}
-                            onClick={() => editor.chain().focus().toggleCodeBlock().run()}
-                        />
+                        {settings.code ? (
+                            <IconButton
+                                icon={<CodeIcon />}
+                                label="Code"
+                                className={[
+                                    'large-icon',
+                                    editor.isActive('code') ? 'is-active' : '',
+                                ]}
+                                onClick={() => editor.chain().focus().toggleCode().run()}
+                                disabled={!editor.can().chain().focus().toggleCode().run()}
+                            />
+                        ) : null}
+                        {settings.codeblock ? (
+                            <IconButton
+                                icon={<BiCodeBlockIcon />}
+                                label="Code Block"
+                                className={[
+                                    'large-icon',
+                                    editor.isActive('codeBlock') ? 'is-active' : '',
+                                ]}
+                                onClick={() => editor.chain().focus().toggleCodeBlock().run()}
+                            />
+                        ) : null}
 
-                        <IconButton
-                            icon={<GrBlockQuoteIcon />}
-                            label="Blockquote"
-                            className={[
-                                'large-icon',
-                                editor.isActive('blockquote') ? 'is-active' : '',
-                            ]}
-                            onClick={() => editor.chain().focus().toggleBlockquote().run()}
-                        />
+                        {settings.blockquote ? (
+                            <IconButton
+                                icon={<GrBlockQuoteIcon />}
+                                label="Blockquote"
+                                className={[
+                                    'large-icon',
+                                    editor.isActive('blockquote') ? 'is-active' : '',
+                                ]}
+                                onClick={() => editor.chain().focus().toggleBlockquote().run()}
+                            />
+                        ) : null}
 
-                        <IconButton
-                            icon={<AiOutlineTable />}
-                            label="Table"
-                            className={['large-icon', editor.isActive('table') ? 'is-active' : '']}
-                            onClick={() =>
-                                editor
-                                    .chain()
-                                    .focus()
-                                    .insertTable({
-                                        cols: 3,
-                                        row: 3,
-                                        withHeaderRow: false,
-                                    })
-                                    .run()
-                            }
-                        />
+                        {settings.table ? (
+                            <IconButton
+                                icon={<AiOutlineTable />}
+                                label="Table"
+                                className={[
+                                    'large-icon',
+                                    editor.isActive('table') ? 'is-active' : '',
+                                ]}
+                                onClick={() =>
+                                    editor
+                                        .chain()
+                                        .focus()
+                                        .insertTable({
+                                            cols: 3,
+                                            row: 3,
+                                            withHeaderRow: false,
+                                        })
+                                        .run()
+                                }
+                            />
+                        ) : null}
 
-                        <IconButton
-                            icon={<AiOutlineLine />}
-                            label="Horizontal line"
-                            className={['large-icon']}
-                            onClick={() => editor.chain().focus().setHorizontalRule().run()}
-                        />
+                        {settings.horizonzalLine ? (
+                            <IconButton
+                                icon={<AiOutlineLine />}
+                                label="Horizontal line"
+                                className={['large-icon']}
+                                onClick={() => editor.chain().focus().setHorizontalRule().run()}
+                            />
+                        ) : null}
 
-                        <IconButton
-                            icon={<LinkIcon />}
-                            label="Link"
-                            className={['medium-icon', editor.isActive('link') ? 'is-active' : '']}
-                            onClick={() => openLinkDialog()}
-                        />
-                        <IconButton
-                            icon={<RemoveFormatIcon />}
-                            label="Remove formating"
-                            className={['large-icon']}
-                            onClick={() => {
-                                editor.chain().focus().clearNodes().run()
-                            }}
-                        />
+                        {settings.link ? (
+                            <IconButton
+                                icon={<LinkIcon />}
+                                label="Link"
+                                className={[
+                                    'medium-icon',
+                                    editor.isActive('link') ? 'is-active' : '',
+                                ]}
+                                onClick={() => openLinkDialog()}
+                            />
+                        ) : null}
+                        {settings.removeFormatting ? (
+                            <IconButton
+                                icon={<RemoveFormatIcon />}
+                                label="Remove formating"
+                                className={['large-icon']}
+                                onClick={() => {
+                                    editor.chain().focus().clearNodes().run()
+                                }}
+                            />
+                        ) : null}
                     </IconButtonGroup>
 
                     {/* UNDO / REDO */}
-                    <IconButtonGroup className="button-group">
-                        <IconButton
-                            icon={<UndoIcon />}
-                            label="Undo"
-                            className={['large-icon']}
-                            onClick={() => editor.chain().focus().undo().run()}
-                            disabled={!editor.can().chain().focus().undo().run()}
-                        />
-                        <IconButton
-                            icon={<RedoIcon />}
-                            label="Redo"
-                            className={['large-icon']}
-                            onClick={() => editor.chain().focus().redo().run()}
-                            disabled={!editor.can().chain().focus().redo().run()}
-                        />
-                    </IconButtonGroup>
+                    {settings.history ? (
+                        <IconButtonGroup className="button-group">
+                            <IconButton
+                                icon={<UndoIcon />}
+                                label="Undo"
+                                className={['large-icon']}
+                                onClick={() => editor.chain().focus().undo().run()}
+                                disabled={!editor.can().chain().focus().undo().run()}
+                            />
+                            <IconButton
+                                icon={<RedoIcon />}
+                                label="Redo"
+                                className={['large-icon']}
+                                onClick={() => editor.chain().focus().redo().run()}
+                                disabled={!editor.can().chain().focus().redo().run()}
+                            />
+                        </IconButtonGroup>
+                    ) : null}
                 </Flex>
             </Flex>
 

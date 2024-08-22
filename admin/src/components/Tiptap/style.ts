@@ -49,6 +49,7 @@ export default styled(Box)`
                 rgba(0, 0, 0, 0.1) 0px 10px 15px -3px,
                 rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
         }
+
         button {
             &.medium-icon {
                 padding: 7px;
@@ -103,6 +104,11 @@ export default styled(Box)`
         line-height: 1.25rem;
         color: ${({ theme }) => theme.colors.neutral800};
         min-height: 80px;
+
+        > :first-child {
+            margin-top: 0 !important;
+        }
+
         > * + * {
             margin-top: 0.75em;
         }
@@ -145,18 +151,7 @@ export default styled(Box)`
                 list-style: decimal;
             }
         }
-        h1 {
-            font-size: 2em;
-        }
-        h2 {
-            font-size: 1.75em;
-        }
-        h3 {
-            font-size: 1.5em;
-        }
-        h4 {
-            font-size: 1.25em;
-        }
+
         h1,
         h2,
         h3,
@@ -164,11 +159,52 @@ export default styled(Box)`
         h5,
         h6 {
             line-height: 1.1;
+            margin-top: 2.5rem;
+            text-wrap: pretty;
+            font-weight: bold;
+        }
+        h1,
+        h2 {
+            margin-top: 3.5rem;
+            margin-bottom: 1.5rem;
+        }
+        h1 {
+            font-size: 1.4rem;
+        }
+        h2 {
+            font-size: 1.2rem;
+        }
+        h3 {
+            font-size: 1.1rem;
+        }
+        h4,
+        h5,
+        h6 {
+            font-size: 1rem;
+        }
+
+        code {
+            padding: 0.2em 0.4em;
+            margin: 0;
+            font-size: 0.85rem;
+            white-space: break-spaces;
+            border-radius: 0.4rem;
+            background-color: ${({ theme }) => theme.colors.primary200};
+            box-decoration-break: clone;
         }
         pre {
-            background: ${({ theme }) => theme.colors.neutral200};
-            color: ${({ theme }) => theme.colors.neutral800};
-            font-family: monospace;
+            background: ${({ theme }) => theme.colors.neutral100};
+            color: ${({ theme }) => theme.colors.neutral1000};
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
+            font-family:
+                'JetBrainsMono',
+                ui-monospace,
+                SFMono-Regular,
+                SF Mono,
+                Menlo,
+                Consolas,
+                Liberation Mono,
+                monospace;
             padding: 0.75rem 1rem;
             border-radius: 0.5rem;
             code {
@@ -178,23 +214,7 @@ export default styled(Box)`
                 font-size: 0.8rem;
             }
         }
-        code {
-            font-family:
-                ui-monospace,
-                SFMono-Regular,
-                SF Mono,
-                Menlo,
-                Consolas,
-                Liberation Mono,
-                monospace;
-            padding: 0.2em 0.4em;
-            margin: 0;
-            font-size: 85%;
-            white-space: break-spaces;
-            border-radius: 6px;
-            background-color: ${({ theme }) => theme.colors.neutral200};
-            box-decoration-break: clone;
-        }
+
         img {
             max-width: 100%;
             height: auto;
@@ -206,30 +226,73 @@ export default styled(Box)`
             margin-left: 0;
             margin-right: 0;
             overflow: hidden;
-            padding-left: 1.5em;
+            padding-left: 1em;
             padding-right: 1.5em;
         }
         hr {
-            border: 0;
-            border-top: 2px solid ${({ theme }) => theme.colors.neutral500};
-            margin: 1rem 0;
+            border: none;
+            border-top: 2px solid ${({ theme }) => theme.colors.neutral200};
+            margin: 2rem 0;
         }
         table {
-            width: 100%;
+            border-collapse: collapse;
+            margin: 0;
+            overflow: hidden;
             table-layout: fixed;
+            width: 100%;
             border: 1px solid ${({ theme }) => theme.colors.neutral600};
             th,
             td {
+                box-sizing: border-box;
+                min-width: 1em;
+                position: relative;
+                vertical-align: top;
                 border: 1px solid ${({ theme }) => theme.colors.neutral600};
                 padding: ${({ theme }) => theme.spaces[2]};
                 &.selectedCell {
                     background: ${({ theme }) => theme.colors.primary500};
                 }
+                > * {
+                    margin-bottom: 0;
+                }
             }
             th {
                 background: ${({ theme }) => theme.colors.neutral300};
                 vertical-align: middle;
+                font-weight: bold;
+                text-align: left;
             }
+
+            .selectedCell:after {
+                background: ${({ theme }) => theme.colors.neutral200};
+                content: '';
+                left: 0;
+                right: 0;
+                top: 0;
+                bottom: 0;
+                pointer-events: none;
+                position: absolute;
+                z-index: 2;
+            }
+            .column-resize-handle {
+                background: ${({ theme }) => theme.colors.primary500};
+                bottom: -2px;
+                pointer-events: none;
+                position: absolute;
+                right: -2px;
+                top: 0;
+                width: 4px;
+            }
+        }
+
+        .tableWrapper {
+            margin: 1.5rem 0;
+            overflow-x: auto;
+        }
+
+        &.resize-cursor {
+            cursor: ew-resize;
+            cursor: col-resize;
         }
 
         /* Placeholder (at the top) */

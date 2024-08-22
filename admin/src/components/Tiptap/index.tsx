@@ -6,7 +6,7 @@ import { Box, Field, FieldLabel, Flex, Stack, Typography } from '@strapi/design-
 import React, { useIntl } from 'react-intl'
 import MenuBar from './MenuBar'
 
-import { EditorContent, useEditor } from '@tiptap/react'
+import { BubbleMenu, EditorContent, useEditor } from '@tiptap/react'
 
 // Tiptap Extensions
 import BlockquoteExtension from '@tiptap/extension-blockquote'
@@ -35,11 +35,28 @@ import TableHeaderExtension from '@tiptap/extension-table-header'
 import TableRowExtension from '@tiptap/extension-table-row'
 import TextExtension from '@tiptap/extension-text'
 import TextAlignExtension from '@tiptap/extension-text-align'
+import Highlight from '@tiptap/extension-highlight'
 // import TextStyleExtension from '@tiptap/extension-text-style'
 import UnderlineExtension from '@tiptap/extension-underline'
 import CharacterCounter from './CharacterCounter'
 
 import { ColorHighlighter } from '../../extensions/color-highlighter'
+import MenuBarTable from './MenuBarTable'
+
+// Floating bubble menu for table
+const BubbleTableMenu = ({ editor }) => {
+    if (!editor) return null
+
+    return (
+        <BubbleMenu editor={editor} tippyOptions={{ maxWidth: '450px' }}>
+            {editor.isActive('table') && (
+                <Flex padding={2} className="menubar floating" style={{ flexWrap: 'wrap' }}>
+                    <MenuBarTable editor={editor} />
+                </Flex>
+            )}
+        </BubbleMenu>
+    )
+}
 
 const Wysiwyg = (opts: any) => {
     const {
@@ -86,9 +103,11 @@ const Wysiwyg = (opts: any) => {
         UnderlineExtension,
         LinkExtension,
         ImageExtension,
+        Highlight.configure({ multicolor: false }),
         TextAlignExtension.configure({
             types: ['heading', 'paragraph'],
         }),
+        // Table
         TableExtension.configure({
             allowTableNodeSelection: true,
         }),
@@ -166,6 +185,7 @@ const Wysiwyg = (opts: any) => {
                     <Flex gap={1} alignItems={'flex-start'}>
                         <Box hasRadius overflow={'hidden'} style={{ flex: '1' }}>
                             <MenuBar editor={editor} />
+                            <BubbleTableMenu editor={editor} />
 
                             <Box
                                 className="editor-content-wrapper"
