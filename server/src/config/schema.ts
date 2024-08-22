@@ -1,377 +1,175 @@
-import Joi from 'joi'
+import * as yup from 'yup'
 
-const HTMLAttributesJoi = Joi.object().pattern(Joi.string(), Joi.string()).optional()
+const HTMLAttributesYup = yup.object().shape({}).optional()
 
-export const pluginConfigSchema = Joi.object({
-    debug: Joi.boolean().default(false),
-    extensions: Joi.object({
-        headings: Joi.object({
-            enabled: Joi.boolean().default(true),
-            levels: Joi.array().items(Joi.number()).default([1, 2, 3, 4, 5, 6]),
-            HTMLAttributes: HTMLAttributesJoi,
+export const pluginConfigSchema = yup.object().shape({
+    debug: yup.boolean().default(false),
+    extensions: yup.object({
+        headings: yup.object({
+            enabled: yup.boolean().default(true),
+            levels: yup.array().of(yup.number().integer().min(1).max(6)).default([1, 2, 3]),
+            HTMLAttributes: yup.object().default({}),
         }),
-        hardBreak: Joi.object({
-            enabled: Joi.boolean().default(true),
-            keepMarks: Joi.boolean().default(false),
-            HTMLAttributes: HTMLAttributesJoi,
+        hardBreak: yup.object({
+            enabled: yup.boolean().default(true),
+            keepMarks: yup.boolean().default(false),
+            HTMLAttributes: yup.object().default({}),
         }),
-        blockquote: Joi.object({
-            enabled: Joi.boolean().default(true),
-            HTMLAttributes: HTMLAttributesJoi,
+        blockquote: yup.object({
+            enabled: yup.boolean().default(true),
+            HTMLAttributes: yup.object().default({}),
         }),
-        bulletList: Joi.object({
-            enabled: Joi.boolean().default(true),
-            itemTypeName: Joi.string().default('listItem'),
-            keepMarks: Joi.boolean().default(false),
-            keepAttributes: Joi.boolean().default(false),
-            HTMLAttributes: HTMLAttributesJoi,
+        bulletList: yup.object({
+            enabled: yup.boolean().default(true),
+            itemTypeName: yup.string().default('listItem'),
+            keepMarks: yup.boolean().default(false),
+            keepAttributes: yup.boolean().default(false),
+            HTMLAttributes: yup.object().default({}),
         }),
-        orderedList: Joi.object({
-            enabled: Joi.boolean().default(true),
-            itemTypeName: Joi.string().default('listItem'),
-            keepMarks: Joi.boolean().default(false),
-            keepAttributes: Joi.boolean().default(false),
-            HTMLAttributes: HTMLAttributesJoi,
+        orderedList: yup.object({
+            enabled: yup.boolean().default(true),
+            itemTypeName: yup.string().default('listItem'),
+            keepMarks: yup.boolean().default(false),
+            keepAttributes: yup.boolean().default(false),
+            HTMLAttributes: yup.object().default({}),
         }),
-        codeBlock: Joi.object({
-            enabled: Joi.boolean().default(true),
-            languageClassPrefix: Joi.string().default('language-'),
-            exitOnTripleEnter: Joi.boolean().default(true),
-            exitOnArrowDown: Joi.boolean().default(true),
-            HTMLAttributes: HTMLAttributesJoi,
+        codeBlock: yup.object({
+            enabled: yup.boolean().default(true),
+            languageClassPrefix: yup.string().default('language-'),
+            exitOnTripleEnter: yup.boolean().default(true),
+            exitOnArrowDown: yup.boolean().default(true),
+            HTMLAttributes: yup.object().default({}),
         }),
-        horizontalRule: Joi.object({
-            enabled: Joi.boolean().default(true),
-            HTMLAttributes: HTMLAttributesJoi,
+        horizontalRule: yup.object({
+            enabled: yup.boolean().default(true),
+            HTMLAttributes: yup.object().default({}),
         }),
-        image: Joi.object({
-            enabled: Joi.boolean().default(true),
-            inline: Joi.boolean().default(true),
-            allowBase64: Joi.boolean().default(false),
-            HTMLAttributes: HTMLAttributesJoi,
+        image: yup.object({
+            enabled: yup.boolean().default(true),
+            inline: yup.boolean().default(true),
+            allowBase64: yup.boolean().default(false),
+            HTMLAttributes: yup.object().default({}),
         }),
-        listItem: Joi.object({
-            enabled: Joi.boolean().default(true),
-            HTMLAttributes: HTMLAttributesJoi,
+        listItem: yup.object({
+            enabled: yup.boolean().default(true),
+            HTMLAttributes: yup.object().default({}),
         }),
-        paragraph: Joi.object({
-            enabled: Joi.boolean().default(true),
-            HTMLAttributes: HTMLAttributesJoi,
+        paragraph: yup.object({
+            enabled: yup.boolean().default(true),
+            HTMLAttributes: yup.object().default({}),
         }),
-        table: Joi.object({
-            enabled: Joi.boolean().default(true),
-            resizable: Joi.boolean().default(false),
-            handleWidth: Joi.number().default(5),
-            cellMinWidth: Joi.number().default(25),
-            lastColumnResizable: Joi.boolean().default(true),
-            allowTableNodeSelection: Joi.boolean().default(false),
-            HTMLAttributes: HTMLAttributesJoi,
+        table: yup.object({
+            enabled: yup.boolean().default(true),
+            resizable: yup.boolean().default(false),
+            handleWidth: yup.number().default(10),
+            cellMinWidth: yup.number().default(25),
+            lastColumnResizable: yup.boolean().default(true),
+            allowTableNodeSelection: yup.boolean().default(false),
+            HTMLAttributes: yup.object().default({}),
         }),
-        bold: Joi.object({
-            enabled: Joi.boolean().default(true),
-            HTMLAttributes: HTMLAttributesJoi,
+        bold: yup.object({
+            enabled: yup.boolean().default(true),
+            HTMLAttributes: yup.object().default({}),
         }),
-        italic: Joi.object({
-            enabled: Joi.boolean().default(true),
-            HTMLAttributes: HTMLAttributesJoi,
+        italic: yup.object({
+            enabled: yup.boolean().default(true),
+            HTMLAttributes: yup.object().default({}),
         }),
-        link: Joi.object({
-            enabled: Joi.boolean().default(true),
-            protocols: Joi.array().items(Joi.string()).default(['http', 'https', 'mailto']),
-            autolink: Joi.boolean().default(false),
-            openOnClick: Joi.boolean().default(true),
-            linkOnPaste: Joi.boolean().default(true),
-            defaultProtocol: Joi.string().default('http'),
-            HTMLAttributes: HTMLAttributesJoi,
+        link: yup.object({
+            enabled: yup.boolean().default(true),
+            protocols: yup.array().of(yup.string()).default(['http', 'https', 'mailto']),
+            autolink: yup.boolean().default(false),
+            openOnClick: yup.boolean().default(true),
+            linkOnPaste: yup.boolean().default(true),
+            defaultProtocol: yup.string().default('http'),
+            HTMLAttributes: yup.object().default({}),
         }),
-        strike: Joi.object({
-            enabled: Joi.boolean().default(true),
-            HTMLAttributes: HTMLAttributesJoi,
+        strike: yup.object({
+            enabled: yup.boolean().default(true),
+            HTMLAttributes: yup.object().default({}),
         }),
-        subscript: Joi.object({
-            enabled: Joi.boolean().default(true),
-            HTMLAttributes: HTMLAttributesJoi,
+        subscript: yup.object({
+            enabled: yup.boolean().default(true),
+            HTMLAttributes: yup.object().default({}),
         }),
-        superscript: Joi.object({
-            enabled: Joi.boolean().default(true),
-            HTMLAttributes: HTMLAttributesJoi,
+        superscript: yup.object({
+            enabled: yup.boolean().default(true),
+            HTMLAttributes: yup.object().default({}),
         }),
-        underline: Joi.object({
-            enabled: Joi.boolean().default(true),
-            HTMLAttributes: HTMLAttributesJoi,
+        underline: yup.object({
+            enabled: yup.boolean().default(true),
+            HTMLAttributes: yup.object().default({}),
         }),
-        highlight: Joi.object({
-            enabled: Joi.boolean().default(true),
-            multicolor: Joi.boolean().default(false),
-            HTMLAttributes: HTMLAttributesJoi,
+        highlight: yup.object({
+            enabled: yup.boolean().default(true),
+            multicolor: yup.boolean().default(false),
+            HTMLAttributes: yup.object().default({}),
         }),
-        textAlign: Joi.object({
-            enabled: Joi.boolean().default(true),
-            types: Joi.array().items(Joi.string()).default(['paragraph', 'heading']),
-            alignments: Joi.array()
-                .items(Joi.string())
+        textAlign: yup.object({
+            enabled: yup.boolean().default(true),
+            types: yup.array().of(yup.string()).default(['heading', 'paragraph', 'blockquote']),
+            alignments: yup
+                .array()
+                .of(yup.string())
                 .default(['left', 'center', 'right', 'justify']),
-            defaultAlignment: Joi.string().default('left'),
+            defaultAlignment: yup.string().default('left'),
         }),
-        typography: Joi.object({
-            enabled: Joi.boolean().default(true),
-            types: Joi.array().items(Joi.string()).default([]),
-            defaultType: Joi.string().optional(),
-            emDash: Joi.alternatives(Joi.string(), Joi.boolean()).default(true),
-            ellipsis: Joi.alternatives(Joi.string(), Joi.boolean()).default(true),
-            openDoubleQuote: Joi.alternatives(Joi.string(), Joi.boolean()).default(true),
-            closeDoubleQuote: Joi.alternatives(Joi.string(), Joi.boolean()).default(true),
-            openSingleQuote: Joi.alternatives(Joi.string(), Joi.boolean()).default(true),
-            closeSingleQuote: Joi.alternatives(Joi.string(), Joi.boolean()).default(true),
-            leftArrow: Joi.alternatives(Joi.string(), Joi.boolean()).default(true),
-            rightArrow: Joi.alternatives(Joi.string(), Joi.boolean()).default(true),
-            copyright: Joi.alternatives(Joi.string(), Joi.boolean()).default(true),
-            registeredTrademark: Joi.alternatives(Joi.string(), Joi.boolean()).default(true),
-            trademark: Joi.alternatives(Joi.string(), Joi.boolean()).default(true),
-            servicemark: Joi.alternatives(Joi.string(), Joi.boolean()).default(true),
-            oneHalf: Joi.alternatives(Joi.string(), Joi.boolean()).default(true),
-            oneQuarter: Joi.alternatives(Joi.string(), Joi.boolean()).default(true),
-            threeQuarters: Joi.alternatives(Joi.string(), Joi.boolean()).default(true),
-            plusMinus: Joi.alternatives(Joi.string(), Joi.boolean()).default(true),
-            notEqual: Joi.alternatives(Joi.string(), Joi.boolean()).default(true),
-            laquo: Joi.alternatives(Joi.string(), Joi.boolean()).default(true),
-            raquo: Joi.alternatives(Joi.string(), Joi.boolean()).default(true),
-            multiplication: Joi.alternatives(Joi.string(), Joi.boolean()).default(true),
-            superscriptTwo: Joi.alternatives(Joi.string(), Joi.boolean()).default(true),
-            superscriptThree: Joi.alternatives(Joi.string(), Joi.boolean()).default(true),
+        typography: yup.object({
+            enabled: yup.boolean().default(true),
+            types: yup.array().of(yup.string()).default(['heading', 'paragraph']),
+            defaultType: yup.string().default('paragraph'),
+            emDash: yup.boolean().default(true),
+            ellipsis: yup.boolean().default(true),
+            openDoubleQuote: yup.boolean().default(true),
+            closeDoubleQuote: yup.boolean().default(true),
+            openSingleQuote: yup.boolean().default(true),
+            closeSingleQuote: yup.boolean().default(true),
+            leftArrow: yup.boolean().default(true),
+            rightArrow: yup.boolean().default(true),
+            copyright: yup.boolean().default(true),
+            registeredTrademark: yup.boolean().default(true),
+            trademark: yup.boolean().default(true),
+            servicemark: yup.boolean().default(true),
+            oneHalf: yup.boolean().default(true),
+            oneQuarter: yup.boolean().default(true),
+            threeQuarters: yup.boolean().default(true),
+            plusMinus: yup.boolean().default(true),
+            notEqual: yup.boolean().default(true),
+            laquo: yup.boolean().default(true),
+            raquo: yup.boolean().default(true),
+            multiplication: yup.boolean().default(true),
+            superscriptTwo: yup.boolean().default(true),
+            superscriptThree: yup.boolean().default(true),
         }),
-        history: Joi.object({
-            enabled: Joi.boolean().default(true),
-            depth: Joi.number().default(200),
-            newGroupDelay: Joi.number().default(500),
+        history: yup.object({
+            enabled: yup.boolean().default(true),
+            depth: yup.number().integer().min(1).default(20),
+            newGroupDelay: yup.number().integer().min(0).default(500),
         }),
-        dropcursor: Joi.object({
-            enabled: Joi.boolean().default(true),
-            color: Joi.string().default('black'),
-            width: Joi.number().default(1),
-            class: Joi.string().optional(),
+        dropcursor: yup.object({
+            enabled: yup.boolean().default(true),
+            color: yup.string().default('black'),
+            width: yup.number().default(1),
+            class: yup.string().optional(),
         }),
-        gapcursor: Joi.object({
-            enabled: Joi.boolean().default(true),
+        gapcursor: yup.object({
+            enabled: yup.boolean().default(true),
         }),
-        placeholder: Joi.object({
-            enabled: Joi.boolean().default(true),
-            emptyEditorClass: Joi.string().default('is-editor-empty'),
-            emptyNodeClass: Joi.string().default('is-empty'),
-            placeholder: Joi.string().optional(),
-            showOnlyWhenEditable: Joi.boolean().default(true),
-            showOnlyCurrent: Joi.boolean().default(false),
-            includeChildren: Joi.boolean().default(false),
+        placeholder: yup.object({
+            enabled: yup.boolean().default(true),
+            emptyEditorClass: yup.string().default('is-editor-empty'),
+            emptyNodeClass: yup.string().default('is-empty'),
+            placeholder: yup.string().default('Write something…'),
+            showOnlyWhenEditable: yup.boolean().default(true),
+            showOnlyCurrent: yup.boolean().default(false),
+            includeChildren: yup.boolean().default(false),
         }),
-        characterCount: Joi.object({
-            enabled: Joi.boolean().default(false),
-            limit: Joi.number().allow(null).optional(),
-            mode: Joi.string().default('textSize'),
+        characterCount: yup.object({
+            enabled: yup.boolean().default(false),
+            limit: yup.number().nullable().default(null),
+            mode: yup.string().default('relaxed'),
         }),
     }),
-}).default({})
+})
 
-export interface PluginConfig {
-    debug: boolean
-    extensions: {
-        headings: {
-            enabled: boolean
-            levels: number[]
-            HTMLAttributes?: {
-                [key: string]: string
-            }
-        }
-        hardBreak: {
-            enabled: boolean
-            keepMarks: boolean
-            HTMLAttributes?: {
-                [key: string]: string
-            }
-        }
-        blockquote: {
-            enabled: boolean
-            HTMLAttributes?: {
-                [key: string]: string
-            }
-        }
-        bulletList: {
-            enabled: boolean
-            itemTypeName: string
-            keepMarks: boolean
-            keepAttributes: boolean
-            HTMLAttributes?: {
-                [key: string]: string
-            }
-        }
-        orderedList: {
-            enabled: boolean
-            itemTypeName: string
-            keepMarks: boolean
-            keepAttributes: boolean
-            HTMLAttributes?: {
-                [key: string]: string
-            }
-        }
-        codeBlock: {
-            enabled: boolean
-            languageClassPrefix: string
-            exitOnTripleEnter: boolean
-            exitOnArrowDown: boolean
-            HTMLAttributes?: {
-                [key: string]: string
-            }
-        }
-        horizontalRule: {
-            enabled: boolean
-            HTMLAttributes?: {
-                [key: string]: string
-            }
-        }
-        image: {
-            enabled: boolean
-            inline: boolean
-            allowBase64: boolean
-            HTMLAttributes?: {
-                [key: string]: string
-            }
-        }
-        listItem: {
-            enabled: boolean
-            HTMLAttributes?: {
-                [key: string]: string
-            }
-        }
-        paragraph: {
-            enabled: boolean
-            HTMLAttributes?: {
-                [key: string]: string
-            }
-        }
-        table: {
-            enabled: boolean
-            resizable: boolean
-            handleWidth: number
-            cellMinWidth: number
-            lastColumnResizable: boolean
-            allowTableNodeSelection: boolean
-            HTMLAttributes?: {
-                [key: string]: string
-            }
-        }
-        bold: {
-            enabled: boolean
-            HTMLAttributes?: {
-                [key: string]: string
-            }
-        }
-        italic: {
-            enabled: boolean
-            HTMLAttributes?: {
-                [key: string]: string
-            }
-        }
-        link: {
-            enabled: boolean
-            protocols: string[]
-            autolink: boolean
-            openOnClick: boolean
-            linkOnPaste: boolean
-            defaultProtocol: string
-            HTMLAttributes?: {
-                [key: string]: string
-            }
-        }
-        strike: {
-            enabled: boolean
-            HTMLAttributes?: {
-                [key: string]: string
-            }
-        }
-        subscript: {
-            enabled: boolean
-            HTMLAttributes?: {
-                [key: string]: string
-            }
-        }
-        superscript: {
-            enabled: boolean
-            HTMLAttributes?: {
-                [key: string]: string
-            }
-        }
-        underline: {
-            enabled: boolean
-            HTMLAttributes?: {
-                [key: string]: string
-            }
-        }
-        highlight: {
-            enabled: boolean
-            multicolor: boolean
-            HTMLAttributes?: {
-                [key: string]: string
-            }
-        }
-        textAlign: {
-            enabled: boolean
-            types: string[]
-            alignments: string[]
-            defaultAlignment: string
-        }
-        typography: {
-            enabled: boolean
-            types: string[]
-            defaultType: string
-            emDash: string | boolean
-            ellipsis: string | boolean
-            openDoubleQuote: string | boolean
-            closeDoubleQuote: string | boolean
-            openSingleQuote: string | boolean
-            closeSingleQuote: string | boolean
-            leftArrow: string | boolean
-            rightArrow: string | boolean
-            copyright: string | boolean
-            registeredTrademark: string | boolean
-            trademark: string | boolean
-            servicemark: string | boolean
-            oneHalf: string | boolean
-            oneQuarter: string | boolean
-            threeQuarters: string | boolean
-            plusMinus: string | boolean
-            notEqual: string | boolean
-            laquo: string | boolean
-            raquo: string | boolean
-            multiplication: string | boolean
-            superscriptTwo: string | boolean
-            superscriptThree: string | boolean
-        }
-        history: {
-            enabled: boolean
-            depth: number
-            newGroupDelay: number
-        }
-        dropcursor: {
-            enabled: boolean
-            color: string
-            width: number
-            class?: string
-        }
-        gapcursor: {
-            enabled: boolean
-        }
-        placeholder: {
-            enabled: boolean
-            emptyEditorClass: string
-            emptyNodeClass: string
-            placeholder: string
-            showOnlyWhenEditable: boolean
-            showOnlyCurrent: boolean
-            includeChildren: boolean
-        }
-        characterCount: {
-            enabled: boolean
-            limit: null | number
-            mode: string
-        }
-    }
-}
+export type PluginConfig = yup.InferType<typeof pluginConfigSchema>

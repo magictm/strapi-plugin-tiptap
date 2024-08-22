@@ -1,5 +1,5 @@
 {
-    "version": "0.1.7",
+    "version": "0.1.8",
     "type": "commonjs",
     "exports": {
         "./strapi-admin": {
@@ -67,15 +67,14 @@
         "@tiptap/html": "^2.6.4",
         "@tiptap/pm": "^2.6.4",
         "@tiptap/react": "^2.6.4",
-        "joi": "^17.13.3",
         "prop-types": "^15.8.1",
         "react-icons": "^5.3.0",
-        "react-query": "^3.39.3"
+        "react-query": "^3.39.3",
+        "yup": "^1.4.0"
     },
     "devDependencies": {
         "@strapi/strapi": "^4.25.4",
         "@strapi/typescript-utils": "^4.25.4",
-        "@types/joi": "^17.2.3",
         "@types/prop-types": "^15.7.12",
         "@types/react": "^18.3.3",
         "@types/react-dom": "^18.3.0",

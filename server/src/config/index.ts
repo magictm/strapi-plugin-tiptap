@@ -1,4 +1,3 @@
-import Joi from 'joi'
 import { pluginConfigSchema } from './schema'
 
 export default {
@@ -164,10 +163,6 @@ export default {
         },
     },
     validator(config) {
-        const { error } = pluginConfigSchema.validate(config)
-
-        if (Joi.isError(error)) {
-            throw new Error(error.message)
-        }
+        pluginConfigSchema.validateSync(config)
     },
 }

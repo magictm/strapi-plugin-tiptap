@@ -4,7 +4,7 @@
  *
  */
 
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 // import PropTypes from 'prop-types';
 
 import { Box, Button, ContentLayout, HeaderLayout, Main, Typography } from '@strapi/design-system'

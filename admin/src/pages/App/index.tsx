@@ -9,6 +9,7 @@ import { Switch, Route } from 'react-router-dom'
 import { pluginId } from '../../pluginId'
 import SettingsPage from '../Settings'
 import { QueryClient, QueryClientProvider } from 'react-query'
+import React from 'react'
 
 const queryClient = new QueryClient()
 

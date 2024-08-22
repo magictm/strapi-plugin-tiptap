@@ -4,5 +4,14 @@
             "label": "TipTap Editor by MagicTMM",
             "settings": "Cos tam"
         }
+    },
+    "field": {
+        "label": "Tiptap Editor",
+        "description": "The rich text editor for every use case."
+    },
+    "error": {
+        "preset": {
+            "required": "Editor preset is required"
+        }
     }
 }

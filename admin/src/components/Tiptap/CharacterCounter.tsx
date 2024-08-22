@@ -1,4 +1,5 @@
 import { Box, Flex, Typography } from '@strapi/design-system'
+import React from 'react'
 
 interface CharacterCounterProps {
     editor: any

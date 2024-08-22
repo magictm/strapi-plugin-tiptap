@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import Wrapper from './style'
 
 import { Box, Field, FieldLabel, Flex, Stack, Typography } from '@strapi/design-system'
-import { useIntl } from 'react-intl'
+import React, { useIntl } from 'react-intl'
 import MenuBar from './MenuBar'
 
 import { EditorContent, useEditor } from '@tiptap/react'
@@ -39,6 +39,8 @@ import TextAlignExtension from '@tiptap/extension-text-align'
 import UnderlineExtension from '@tiptap/extension-underline'
 import CharacterCounter from './CharacterCounter'
 
+import { ColorHighlighter } from '../../extensions/color-highlighter'
+
 const Wysiwyg = (opts: any) => {
     const {
         hint,
@@ -63,74 +65,77 @@ const Wysiwyg = (opts: any) => {
     const [mediaLibVisible, setMediaLibVisible] = useState(false)
     const [debug, setDebug] = useState(false)
     const [hasDebug, setHasDebug] = useState(false)
-    const [content, setContent] = useState(value || '')
+    const [content, setContent] = useState('')
 
     const characterLimit = attribute?.maxLength || 0
 
     const handleToggleMediaLib = () => setMediaLibVisible((prev) => !prev)
 
+    const extensions = [
+        DocumentExtension,
+        ParagraphExtension,
+        TextExtension,
+        BoldExtension,
+        StrikeExtension,
+        ItalicExtension,
+        GapcursorExtension,
+        ListItemExtension,
+        BulletListExtension,
+        OrderedListExtension,
+        HeadingExtension,
+        UnderlineExtension,
+        LinkExtension,
+        ImageExtension,
+        TextAlignExtension.configure({
+            types: ['heading', 'paragraph'],
+        }),
+        TableExtension.configure({
+            allowTableNodeSelection: true,
+        }),
+        TableRowExtension,
+        TableCellExtension,
+        TableHeaderExtension,
+        // TextStyleExtension,
+        BlockquoteExtension,
+        CodeBlockExtension,
+        CodeExtension,
+        HardBreakExtension,
+        HorizontalRuleExtension,
+        CharacterCountExtension.configure({
+            limit: characterLimit,
+        }),
+
+        PlaceholderExtension.configure({
+            placeholder: ({ node }) => {
+                if (node.type.name === 'heading') {
+                    // console.log('node heading')
+                    return 'Write awesome title...'
+                }
+
+                // console.log(node)
+
+                return 'Write something awesome...'
+            },
+        }),
+        HistoryExtension,
+        ColorHighlighter,
+    ]
+
     const editor = useEditor({
-        extensions: [
-            DocumentExtension,
-            ParagraphExtension,
-            TextExtension,
-            BoldExtension,
-            StrikeExtension,
-            ItalicExtension,
-            GapcursorExtension,
-            ListItemExtension,
-            BulletListExtension,
-            OrderedListExtension,
-            HeadingExtension,
-            UnderlineExtension,
-            LinkExtension,
-            ImageExtension,
-            TextAlignExtension.configure({
-                types: ['heading', 'paragraph'],
-            }),
-            TableExtension.configure({
-                allowTableNodeSelection: true,
-            }),
-            TableRowExtension,
-            TableCellExtension,
-            TableHeaderExtension,
-            // TextStyleExtension,
-            BlockquoteExtension,
-            CodeBlockExtension,
-            CodeExtension,
-            HardBreakExtension,
-            HorizontalRuleExtension,
-            CharacterCountExtension.configure({
-                limit: characterLimit,
-            }),
-
-            PlaceholderExtension.configure({
-                placeholder: ({ node }) => {
-                    if (node.type.name === 'heading') {
-                        // console.log('node heading')
-                        return 'Write awesome title...'
-                    }
-
-                    // console.log(node)
-
-                    return 'Write something awesome...'
-                },
-            }),
-            HistoryExtension,
-        ],
-
-        content,
-
+        extensions,
         parseOptions: {
             preserveWhitespace: 'full',
         },
-
         onBeforeCreate({ editor }) {},
 
         onUpdate({ editor }) {
             // if (debug) console.log('onUpdate')
+            const saveFormat = 'json'
 
-            onChange({ target: { name, value: editor.getHTML() } })
+            const contentToSave =
+                saveFormat === 'json' ? JSON.stringify(editor.getJSON()) : editor.getHTML()
+
+            onChange({ target: { name, value: contentToSave } })
         },
     })
 
@@ -138,8 +143,16 @@ const Wysiwyg = (opts: any) => {
         if (!editor) return
 
         if (content === '') {
-            setContent(value)
-            editor.commands.setContent(value, false)
+            try {
+                // If content is saved as json, parse it
+                const json = JSON.parse(value)
+                setContent(value)
+                editor.commands.setContent(json, false)
+            } catch (e) {
+                // Use value as is, the content hasn't been converted to json.
+                setContent(value)
+                editor.commands.setContent(value, false)
+            }
         }
     }, [editor])
 
@@ -152,12 +165,8 @@ const Wysiwyg = (opts: any) => {
                 <Wrapper>
                     <Flex gap={1} alignItems={'flex-start'}>
                         <Box hasRadius overflow={'hidden'} style={{ flex: '1' }}>
-                            <MenuBar
-                                editor={editor}
-                                debug={debug}
-                                setDebug={setDebug}
-                                playground={playground}
-                            />
+                            <MenuBar editor={editor} />
+
                             <Box
                                 className="editor-content-wrapper"
                                 padding={2}
@@ -166,12 +175,12 @@ const Wysiwyg = (opts: any) => {
                                 minHeight={'100px'}
                                 style={{ resize: 'vertical', overflow: 'auto' }}
                             >
-                                <EditorContent editor={editor} />
+                                <EditorContent key="editor" editor={editor} />
                             </Box>
 
-                            {editor && (
+                            {/* {editor && (
                                 <CharacterCounter editor={editor} characterLimit={characterLimit} />
-                            )}
+                            )} */}
                         </Box>
                     </Flex>
                 </Wrapper>

@@ -1,6 +1,7 @@
-import { Flex, Icon } from '@strapi/design-system';
-import { Paint } from '@strapi/icons';
-import styled from 'styled-components';
+import { Flex, Icon } from '@strapi/design-system'
+import { Paint } from '@strapi/icons'
+import styled from 'styled-components'
+import React from 'react'
 
 const IconBox = styled(Flex)`
     /* Hard code color values */
@@ -11,7 +12,7 @@ const IconBox = styled(Flex)`
     svg > path {
         fill: #4945ff; /* primary600 */
     }
-`;
+`
 
 export const PluginIcon = () => {
     return (
@@ -25,5 +26,5 @@ export const PluginIcon = () => {
         >
             <Icon as={Paint} />
         </IconBox>
-    );
-};
+    )
+}

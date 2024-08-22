@@ -10,9 +10,7 @@ import {
     Option,
     Select,
     Stack,
-    Switch,
     TextInput,
-    Typography,
 } from '@strapi/design-system'
 import {
     Bold as BoldIcon,
@@ -24,7 +22,7 @@ import {
     StrikeThrough as StrikeThroughIcon,
     Underline as UnderlineIcon,
 } from '@strapi/icons'
-import { useState } from 'react'
+import React, { useState } from 'react'
 import {
     AiOutlineAlignCenter,
     AiOutlineAlignLeft,
@@ -57,7 +55,11 @@ const onHeadingChange = (editor, type) => {
     }
 }
 
-const MenuBar = ({ editor, debug, setDebug, playground }) => {
+const MenuBar = ({ editor }) => {
+    if (!editor) {
+        return null
+    }
+
     const [isVisibleLinkDialog, setIsVisibleLinkDialog] = useState(false)
     const [linkInput, setLinkInput] = useState('')
     const [linkTargetInput, setLinkTargetInput] = useState('')
@@ -91,10 +93,6 @@ const MenuBar = ({ editor, debug, setDebug, playground }) => {
         if (previousTarget) setLinkTargetInput(previousTarget)
 
         setIsVisibleLinkDialog(true)
-    }
-
-    if (!editor) {
-        return null
     }
 
     let selectedTextStyle = 'none'
@@ -300,19 +298,6 @@ const MenuBar = ({ editor, debug, setDebug, playground }) => {
                         />
                     </IconButtonGroup>
                 </Flex>
-                {playground && (
-                    <Flex className={'debug-button'}>
-                        <Typography>Debug: </Typography>
-                        <Switch
-                            label="Toggle debug mode"
-                            selected={debug}
-                            onChange={() => setDebug((x) => !x)}
-                            visibleLabels={false}
-                        />
-                        {/* <Button>Get JSON</Button>
-                        <Button>Get HTML</Button> */}
-                    </Flex>
-                )}
             </Flex>
 
             <Dialog

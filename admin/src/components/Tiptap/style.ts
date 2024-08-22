@@ -110,6 +110,14 @@ export default styled(Box)`
             border: 5px solid ${({ theme }) => theme.colors.neutral800};
             box-sizing: border-box;
         }
+        a {
+            color: ${({ theme }) => theme.colors.primary500};
+            text-decoration: underline;
+            font-weight: 500;
+            strong {
+                color: 'inherit';
+            }
+        }
         strong {
             font-weight: bold;
         }
@@ -158,8 +166,8 @@ export default styled(Box)`
             line-height: 1.1;
         }
         pre {
-            background: #0d0d0d;
-            color: #fff;
+            background: ${({ theme }) => theme.colors.neutral200};
+            color: ${({ theme }) => theme.colors.neutral800};
             font-family: monospace;
             padding: 0.75rem 1rem;
             border-radius: 0.5rem;
@@ -184,7 +192,7 @@ export default styled(Box)`
             font-size: 85%;
             white-space: break-spaces;
             border-radius: 6px;
-            background-color: rgba(175, 184, 193, 0.2);
+            background-color: ${({ theme }) => theme.colors.neutral200};
             box-decoration-break: clone;
         }
         img {
@@ -203,7 +211,7 @@ export default styled(Box)`
         }
         hr {
             border: 0;
-            border-top: 2px solid rgba(13, 13, 13, 0.1);
+            border-top: 2px solid ${({ theme }) => theme.colors.neutral500};
             margin: 1rem 0;
         }
         table {
@@ -227,7 +235,7 @@ export default styled(Box)`
         /* Placeholder (at the top) */
         p.is-editor-empty:first-child::before,
         h1.is-empty:first-child::before {
-            color: #adb5bd;
+            color: ${({ theme }) => theme.colors.neutral500};
             content: attr(data-placeholder);
             float: left;
             height: 0;
@@ -236,11 +244,28 @@ export default styled(Box)`
 
         /* Placeholder (on every new line) */
         /*.ProseMirror p.is-empty::before {
-        color: #adb5bd;
+        color: ${({ theme }) => theme.colors.neutral500};
         content: attr(data-placeholder);
         float: left;
         height: 0;
         pointer-events: none;
         }*/
+
+        .color {
+            white-space: nowrap;
+
+            &::before {
+                background-color: var(--color);
+                border: 1px solid ${({ theme }) => theme.colors.neutral300};
+                border-radius: 4px;
+                content: ' ';
+                display: inline-block;
+                height: 1em;
+                margin-bottom: 0.15em;
+                margin-right: 0.1em;
+                vertical-align: middle;
+                width: 1em;
+            }
+        }
     }
 `
