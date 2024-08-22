@@ -1,5 +1,5 @@
 import type { Strapi } from '@strapi/strapi'
-import { pluginId } from '../../admin/src/pluginId'
+import { pluginId } from '../admin/src/pluginId'
 
 const register = ({ strapi }: { strapi: Strapi }) => {
     strapi.customFields.register({

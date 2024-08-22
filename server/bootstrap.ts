@@ -1,5 +1,5 @@
 import type { Strapi } from '@strapi/strapi'
-import { pluginConfigId, pluginId } from '../../admin/src/pluginId'
+import { pluginConfigId, pluginId } from '../admin/src/pluginId'
 import { PluginConfig } from './config/schema'
 
 const bootstrap = ({ strapi }: { strapi: Strapi }) => {

@@ -1,5 +1,5 @@
 import type { Strapi } from '@strapi/strapi'
-import { pluginId } from '../../../admin/src/pluginId'
+import { pluginId } from '../../admin/src/pluginId'
 
 const ConfigService = ({ strapi }: { strapi: Strapi }) => {
     const getPluginStore = () => {

@@ -1,7 +1,7 @@
 import { Extension } from '@tiptap/core'
 import { Plugin } from '@tiptap/pm/state'
 
-import findColors from './findColors.js'
+import findColors from './findColors'
 
 export const ColorHighlighter = Extension.create({
     name: 'colorHighlighter',
@@ -14,9 +14,7 @@ export const ColorHighlighter = Extension.create({
                         return findColors(doc)
                     },
                     apply(transaction, oldState) {
-                        return transaction.docChanged
-                            ? findColors(transaction.doc)
-                            : oldState
+                        return transaction.docChanged ? findColors(transaction.doc) : oldState
                     },
                 },
                 props: {
