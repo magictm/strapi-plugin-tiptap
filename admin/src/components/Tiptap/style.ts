@@ -255,6 +255,9 @@ export default styled(Box)`
                 > * {
                     margin-bottom: 0;
                 }
+                &.selectedCell {
+                    background: ${({ theme }) => theme.colors.neutral200};
+                }
             }
             th {
                 background: ${({ theme }) => theme.colors.neutral300};
@@ -263,17 +266,6 @@ export default styled(Box)`
                 text-align: left;
             }
 
-            .selectedCell:after {
-                background: ${({ theme }) => theme.colors.neutral200};
-                content: '';
-                left: 0;
-                right: 0;
-                top: 0;
-                bottom: 0;
-                pointer-events: none;
-                position: absolute;
-                z-index: 2;
-            }
             .column-resize-handle {
                 background: ${({ theme }) => theme.colors.primary500};
                 bottom: -2px;
@@ -314,6 +306,7 @@ export default styled(Box)`
         pointer-events: none;
         }*/
 
+        // Color highlighter
         .color {
             white-space: nowrap;
 

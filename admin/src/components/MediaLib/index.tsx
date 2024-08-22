@@ -14,7 +14,8 @@ const MediaLib: React.FC<MediaLibProps> = ({ isOpen, onChange, onToggle }) => {
     const handleSelectAssets = (files: any[]) => {
         const formattedFiles = files.map((f) => ({
             alt: f.alternativeText || f.name,
-            url: prefixFileUrlWithBackendUrl(f.url),
+            url: f.url,
+            // url: prefixFileUrlWithBackendUrl(f.url),
             mime: f.mime,
         }))
 

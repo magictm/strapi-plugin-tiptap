@@ -42,18 +42,28 @@ import CharacterCounter from './CharacterCounter'
 
 import { ColorHighlighter } from '../../extensions/color-highlighter'
 import MenuBarTable from './MenuBarTable'
+import MediaLib from '../MediaLib'
+import { useLibrary } from '@strapi/helper-plugin'
+import { prefixFileUrlWithBackendUrl } from '@strapi/helper-plugin'
 
 // Floating bubble menu for table
 const BubbleTableMenu = ({ editor }) => {
     if (!editor) return null
 
+    let menuBars = []
+
+    if (editor.isActive('table')) {
+        menuBars.push(MenuBarTable({ editor }))
+    }
+
     return (
-        <BubbleMenu editor={editor} tippyOptions={{ maxWidth: '450px' }}>
-            {editor.isActive('table') && (
-                <Flex padding={2} className="menubar floating" style={{ flexWrap: 'wrap' }}>
-                    <MenuBarTable editor={editor} />
+        <BubbleMenu editor={editor} tippyOptions={{ zIndex: 2, duration: 100, maxWidth: '450px' }}>
+            {menuBars.length ? (
+                <Flex padding={1} className="menubar floating" style={{ flexWrap: 'wrap' }}>
+                    {/* Render menu bars */}
+                    {menuBars}
                 </Flex>
-            )}
+            ) : null}
         </BubbleMenu>
     )
 }
@@ -79,14 +89,21 @@ const Wysiwyg = (opts: any) => {
     // console.log('opts', opts)
 
     const { formatMessage } = useIntl()
-    const [mediaLibVisible, setMediaLibVisible] = useState(false)
+    // Media library handling
+    const [forceInsert, setForceInsert] = useState(false)
+
+    const [showMediaLibDialog, setShowMediaLibDialog] = useState(false)
+    const handleToggleMediaLibDialog = () => {
+        setShowMediaLibDialog(!showMediaLibDialog)
+    }
+
+    // Debug
     const [debug, setDebug] = useState(false)
     const [hasDebug, setHasDebug] = useState(false)
+    // Content
     const [content, setContent] = useState('')
 
     const characterLimit = attribute?.maxLength || 0
-
-    const handleToggleMediaLib = () => setMediaLibVisible((prev) => !prev)
 
     const extensions = [
         DocumentExtension,
@@ -158,6 +175,33 @@ const Wysiwyg = (opts: any) => {
         },
     })
 
+    const getUpdatedImage = (asset) => ({
+        src: asset.url,
+        alt: asset.alt,
+        ...(asset.width && { width: asset.width }),
+        ...(asset.height && { height: asset.height }),
+        ...(asset.url?.includes('lazy') || (asset.caption === 'lazy' && { loading: 'lazy' })),
+    })
+
+    const handleChangeAssets = (assets) => {
+        if (!forceInsert && editor?.isActive('image')) {
+            assets.map((asset) => {
+                if (asset.mime.includes('image')) {
+                    editor.chain().focus().setImage(getUpdatedImage(asset)).run()
+                }
+            })
+        } else {
+            assets.map((asset) => {
+                if (asset.mime.includes('image')) {
+                    editor?.commands.setImage(getUpdatedImage(asset))
+                }
+            })
+        }
+
+        setForceInsert(false)
+        handleToggleMediaLibDialog()
+    }
+
     useEffect(() => {
         if (!editor) return
 
@@ -176,7 +220,7 @@ const Wysiwyg = (opts: any) => {
     }, [editor])
 
     return (
-        <Field required={required}>
+        <Field name={name} required={required}>
             <Stack spacing={1}>
                 <Box>
                     <FieldLabel action={labelAction}> {formatMessage(intlLabel)}</FieldLabel>
@@ -184,7 +228,7 @@ const Wysiwyg = (opts: any) => {
                 <Wrapper>
                     <Flex gap={1} alignItems={'flex-start'}>
                         <Box hasRadius overflow={'hidden'} style={{ flex: '1' }}>
-                            <MenuBar editor={editor} />
+                            <MenuBar editor={editor} toggleMediaLib={handleToggleMediaLibDialog} />
                             <BubbleTableMenu editor={editor} />
 
                             <Box
@@ -204,6 +248,7 @@ const Wysiwyg = (opts: any) => {
                         </Box>
                     </Flex>
                 </Wrapper>
+
                 {error && (
                     <Typography variant="pi" textColor="danger600">
                         {formatMessage({ id: error, defaultMessage: error })}
@@ -211,6 +256,13 @@ const Wysiwyg = (opts: any) => {
                 )}
                 {description && <Typography variant="pi">{formatMessage(description)}</Typography>}
             </Stack>
+            {showMediaLibDialog && (
+                <MediaLib
+                    isOpen={showMediaLibDialog}
+                    onChange={handleChangeAssets}
+                    onToggle={handleToggleMediaLibDialog}
+                />
+            )}
         </Field>
     )
 }

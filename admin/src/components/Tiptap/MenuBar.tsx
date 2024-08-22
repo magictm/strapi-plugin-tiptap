@@ -12,6 +12,7 @@ import {
     Stack,
     TextInput,
 } from '@strapi/design-system'
+import { Landscape } from '@strapi/icons'
 import { Pencil } from '@strapi/icons'
 import {
     Bold as BoldIcon,
@@ -56,7 +57,7 @@ const onHeadingChange = (editor, type) => {
     }
 }
 
-const MenuBar = ({ editor }) => {
+const MenuBar = ({ editor, toggleMediaLib }) => {
     if (!editor) {
         return null
     }
@@ -352,6 +353,21 @@ const MenuBar = ({ editor }) => {
                                 disabled={!editor.can().chain().focus().redo().run()}
                             />
                         </IconButtonGroup>
+                    ) : null}
+
+                    {true ? (
+                        <IconButton
+                            icon={<Landscape />}
+                            label={editor.isActive('image') ? 'Change image' : 'Insert image'}
+                            className={[
+                                'medium-icon',
+                                editor.isActive('image') &&
+                                !editor.getAttributes('image').src.includes(';base64')
+                                    ? 'is-active'
+                                    : '',
+                            ]}
+                            onClick={toggleMediaLib}
+                        />
                     ) : null}
                 </Flex>
             </Flex>
