@@ -43,8 +43,6 @@ import CharacterCounter from './CharacterCounter'
 import { ColorHighlighter } from '../../extensions/color-highlighter'
 import MenuBarTable from './MenuBarTable'
 import MediaLib from '../MediaLib'
-import { useLibrary } from '@strapi/helper-plugin'
-import { prefixFileUrlWithBackendUrl } from '@strapi/helper-plugin'
 
 // Floating bubble menu for table
 const BubbleTableMenu = ({ editor }) => {
@@ -242,9 +240,9 @@ const Wysiwyg = (opts: any) => {
                                 <EditorContent key="editor" editor={editor} />
                             </Box>
 
-                            {/* {editor && (
+                            {editor && (
                                 <CharacterCounter editor={editor} characterLimit={characterLimit} />
-                            )} */}
+                            )}
                         </Box>
                     </Flex>
                 </Wrapper>

@@ -64,7 +64,7 @@ const MenuBar = ({ editor, toggleMediaLib }) => {
 
     const settings = {
         highlight: true,
-        align: ['left'],
+        // align: ['left'],
         lists: ['ul', 'ol'],
         code: true,
         codeblock: true,
@@ -187,37 +187,49 @@ const MenuBar = ({ editor, toggleMediaLib }) => {
                         ) : null}
                     </IconButtonGroup>
 
-                    <IconButtonGroup className="button-group">
-                        {settings.align.includes('left') ? (
-                            <IconButton
-                                icon={<AiOutlineAlignLeft />}
-                                label="Align left"
-                                className={'large-icon'}
-                                onClick={() => editor.chain().focus().setTextAlign('left').run()}
-                                disabled={!editor.can().chain().focus().setTextAlign('left').run()}
-                            />
-                        ) : null}
-                        {settings.align.includes('center') ? (
-                            <IconButton
-                                icon={<AiOutlineAlignCenter />}
-                                label="Align center"
-                                className={'large-icon'}
-                                onClick={() => editor.chain().focus().setTextAlign('center').run()}
-                                disabled={
-                                    !editor.can().chain().focus().setTextAlign('center').run()
-                                }
-                            />
-                        ) : null}
-                        {settings.align.includes('right') ? (
-                            <IconButton
-                                icon={<AiOutlineAlignRight />}
-                                label="Align right"
-                                className={'medium-icon'}
-                                onClick={() => editor.chain().focus().setTextAlign('right').run()}
-                                disabled={!editor.can().chain().focus().setTextAlign('right').run()}
-                            />
-                        ) : null}
-                    </IconButtonGroup>
+                    {settings.align && (
+                        <IconButtonGroup className="button-group">
+                            {settings.align.includes('left') ? (
+                                <IconButton
+                                    icon={<AiOutlineAlignLeft />}
+                                    label="Align left"
+                                    className={'large-icon'}
+                                    onClick={() =>
+                                        editor.chain().focus().setTextAlign('left').run()
+                                    }
+                                    disabled={
+                                        !editor.can().chain().focus().setTextAlign('left').run()
+                                    }
+                                />
+                            ) : null}
+                            {settings.align.includes('center') ? (
+                                <IconButton
+                                    icon={<AiOutlineAlignCenter />}
+                                    label="Align center"
+                                    className={'large-icon'}
+                                    onClick={() =>
+                                        editor.chain().focus().setTextAlign('center').run()
+                                    }
+                                    disabled={
+                                        !editor.can().chain().focus().setTextAlign('center').run()
+                                    }
+                                />
+                            ) : null}
+                            {settings.align.includes('right') ? (
+                                <IconButton
+                                    icon={<AiOutlineAlignRight />}
+                                    label="Align right"
+                                    className={'medium-icon'}
+                                    onClick={() =>
+                                        editor.chain().focus().setTextAlign('right').run()
+                                    }
+                                    disabled={
+                                        !editor.can().chain().focus().setTextAlign('right').run()
+                                    }
+                                />
+                            ) : null}
+                        </IconButtonGroup>
+                    )}
 
                     <IconButtonGroup className="button-group">
                         {settings.lists.includes('ul') ? (
