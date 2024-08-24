@@ -159,23 +159,23 @@ export default styled(Box)`
         h5,
         h6 {
             line-height: 1.1;
-            margin-top: 2.5rem;
+            margin-top: 1.5rem;
             text-wrap: pretty;
             font-weight: bold;
         }
         h1,
         h2 {
-            margin-top: 3.5rem;
+            margin-top: 1.5rem;
             margin-bottom: 1.5rem;
         }
         h1 {
-            font-size: 1.4rem;
+            font-size: 2rem;
         }
         h2 {
-            font-size: 1.2rem;
+            font-size: 1.5rem;
         }
         h3 {
-            font-size: 1.1rem;
+            font-size: 1.25rem;
         }
         h4,
         h5,
@@ -236,7 +236,6 @@ export default styled(Box)`
         }
         table {
             border-collapse: collapse;
-            margin: 0;
             overflow: hidden;
             table-layout: fixed;
             width: 100%;

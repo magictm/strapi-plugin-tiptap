@@ -36,6 +36,7 @@ import TableRowExtension from '@tiptap/extension-table-row'
 import TextExtension from '@tiptap/extension-text'
 import TextAlignExtension from '@tiptap/extension-text-align'
 import Highlight from '@tiptap/extension-highlight'
+import TypographyExtension from '@tiptap/extension-typography'
 // import TextStyleExtension from '@tiptap/extension-text-style'
 import UnderlineExtension from '@tiptap/extension-underline'
 import CharacterCounter from './CharacterCounter'
@@ -138,6 +139,7 @@ const Wysiwyg = (opts: any) => {
         CharacterCountExtension.configure({
             limit: characterLimit,
         }),
+        TypographyExtension,
 
         PlaceholderExtension.configure({
             placeholder: ({ node }) => {
