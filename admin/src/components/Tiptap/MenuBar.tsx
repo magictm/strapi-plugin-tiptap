@@ -70,10 +70,12 @@ const MenuBar = ({ editor, toggleMediaLib }) => {
         codeblock: true,
         blockquote: true,
         table: true,
+        link: true,
     }
 
     const [isVisibleLinkDialog, setIsVisibleLinkDialog] = useState(false)
     const [linkInput, setLinkInput] = useState('')
+    const [linkInputText, setLinkInputText] = useState('')
     const [linkTargetInput, setLinkTargetInput] = useState('')
 
     const onInsertLink = () => {
@@ -81,12 +83,25 @@ const MenuBar = ({ editor, toggleMediaLib }) => {
         if (linkInput === '') {
             editor.chain().focus().extendMarkRange('link').unsetLink().run()
         } else {
+            // console.log(
+            //     'linkInput',
+            //     linkInput,
+            //     'linkTargetInput',
+            //     linkTargetInput,
+            //     'linkInputText',
+            //     linkInputText
+            // )
+
             // Update link
             editor
                 .chain()
                 .focus()
                 .extendMarkRange('link')
-                .setLink({ href: linkInput, target: linkTargetInput })
+                .setLink({ href: linkInput, target: linkTargetInput ?? undefined })
+                .command(({ tr }) => {
+                    tr.insertText(linkInputText !== '' ? linkInputText : linkInput)
+                    return true
+                })
                 .run()
         }
 
@@ -94,14 +109,55 @@ const MenuBar = ({ editor, toggleMediaLib }) => {
         setIsVisibleLinkDialog(false)
         setLinkInput('')
         setLinkTargetInput('')
+        setLinkInputText('')
     }
 
     const openLinkDialog = () => {
         const previousUrl = editor.getAttributes('link').href
         const previousTarget = editor.getAttributes('link').target
 
+        const { state } = editor
+        const { selection } = state
+        const { from, to } = selection
+        const selectedText = state.doc.textBetween(from, to, ' ')
+
+        // console.log('selectedText', selectedText)
+
         // Update fields before showing dialog
-        if (previousUrl) setLinkInput(previousUrl)
+        if (previousUrl) {
+            setLinkInput(previousUrl)
+            let cursorPos = selection.$from.pos
+            const previousPos = cursorPos - 1
+
+            let linkStart = -1
+            let linkEnd = -1
+
+            // Check if a link mark exists at the cursor position OR the position before it
+            for (const pos of [cursorPos, previousPos]) {
+                state.doc.nodesBetween(pos, pos, (node, nodePos) => {
+                    if (node.marks) {
+                        const linkMark = node.marks.find((mark) => mark.type.name === 'link')
+                        if (linkMark) {
+                            linkStart = nodePos
+                            linkEnd = nodePos + node.nodeSize
+                            return false
+                        }
+                    }
+                })
+
+                // If we found the link mark, we can stop checking
+                if (linkStart !== -1) {
+                    break
+                }
+            }
+
+            // console.log('linkStart', linkStart, 'linkEnd', linkEnd)
+            const linkText = state.doc.textBetween(linkStart, linkEnd, ' ')
+            // console.log('linkText', linkText)
+            setLinkInputText(linkText)
+        } else if (selectedText) {
+            setLinkInputText(selectedText)
+        }
         if (previousTarget) setLinkTargetInput(previousTarget)
 
         setIsVisibleLinkDialog(true)
@@ -399,10 +455,17 @@ const MenuBar = ({ editor, toggleMediaLib }) => {
                             value={linkInput}
                             aria-label="URL"
                         />
+                        <TextInput
+                            label="Link Text"
+                            placeholder="Write link text here"
+                            name="url_text"
+                            onChange={(e) => setLinkInputText(e.target.value)}
+                            value={linkInputText}
+                            aria-label="URL Text"
+                        />
                         <Select
                             id="linkTargetSelect"
                             label="Link target"
-                            required
                             placeholder="Select link target"
                             value={linkTargetInput}
                             onChange={setLinkTargetInput}
@@ -420,6 +483,7 @@ const MenuBar = ({ editor, toggleMediaLib }) => {
                             onClick={() => {
                                 setLinkInput('')
                                 setLinkTargetInput('')
+                                setLinkInputText('')
                                 setIsVisibleLinkDialog(false)
                             }}
                             variant="tertiary"
