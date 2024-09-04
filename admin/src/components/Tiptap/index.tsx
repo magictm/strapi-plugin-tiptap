@@ -40,6 +40,7 @@ import TypographyExtension from '@tiptap/extension-typography'
 // import TextStyleExtension from '@tiptap/extension-text-style'
 import UnderlineExtension from '@tiptap/extension-underline'
 import CharacterCounter from './CharacterCounter'
+import { Youtube } from '../../extensions/youtube'
 
 import { ColorHighlighter } from '../../extensions/color-highlighter'
 import MenuBarTable from './MenuBarTable'
@@ -117,7 +118,9 @@ const Wysiwyg = (opts: any) => {
         OrderedListExtension,
         HeadingExtension,
         UnderlineExtension,
-        LinkExtension,
+        LinkExtension.configure({
+            openOnClick: false,
+        }),
         ImageExtension,
         Highlight.configure({ multicolor: false }),
         TextAlignExtension.configure({
@@ -140,6 +143,8 @@ const Wysiwyg = (opts: any) => {
             limit: characterLimit,
         }),
         TypographyExtension,
+        // Embed
+        Youtube,
 
         PlaceholderExtension.configure({
             placeholder: ({ node }) => {
